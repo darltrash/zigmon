@@ -7,7 +7,7 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const module = b.addModule("root", .{
+    const module = b.addModule("zigmon", .{
         .root_source_file = b.path("src/zigmon.zig"),
     });
 
@@ -47,10 +47,6 @@ pub fn build(b: *std.Build) void {
         const demo_cmd = b.addRunArtifact(demo_raw);
         demo_cmd.step.dependOn(b.getInstallStep());
 
-        if (b.args) |args| {
-            demo_cmd.addArgs(args);
-        }
-
         const demo_step = b.step("demo-raw", "Run the raw binding demo");
         demo_step.dependOn(&demo_cmd.step);
     }
@@ -73,10 +69,6 @@ pub fn build(b: *std.Build) void {
 
         const demo_cmd = b.addRunArtifact(demo);
         demo_cmd.step.dependOn(b.getInstallStep());
-
-        if (b.args) |args| {
-            demo_cmd.addArgs(args);
-        }
 
         const demo_step = b.step("demo", "Run the demo");
         demo_step.dependOn(&demo_cmd.step);
